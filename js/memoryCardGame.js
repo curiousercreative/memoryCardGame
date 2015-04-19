@@ -204,9 +204,6 @@ winston@curiousercreative.com
                 (this.ready.pages && this.ready.window) || this.ready.timeIsUp
             ) {
                 if (debug) console.log('Everything is ready or time is up, showing site');
-            // check connection speed
-                nav.speedTest.init();              
-            
             // resize
                 nav.resize();
             
