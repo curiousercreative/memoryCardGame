@@ -12,50 +12,82 @@
             var animation_duration = 0;
             var debug = true;
             var isMobile = false;
-            var default_page = "home";
+            var default_page = "game";
         </script>
     </head>
     
     <body>
-       <div id="game_container">
-            <div id="page_instructions" class="page">
-                
-            </div> <!-- end #page_instructions -->
-        
-            <div id="page_game" class="page">
-                
-            </div> <!-- end #page_game -->
-            
-            <div id="page_hi-score" class="page">
-                
-            </div> <!-- end #page_hi-score -->
-        
-       </div> <!-- end #game_container -->
-        
-        <div id="meta_container">
-            <div class="meta_block">
-                <h1>Memory Card Game</h1>
-            </div> <!-- end .meta_block -->
-            
-            <div class="meta_block">
-                <div id="timer"></div>
-            </div> <!-- end .meta_block -->
-            
-            <div class="meta_block">
-                <h2>Your current score</h2>
-                <div id="scoreCurrent"></div>    
-            </div> <!-- end .meta_block -->
-            
-            <div class="meta_block">
-                <h2>Your high score</h2>
-                <div id="scoreHigh"></div>
-                <a href="/hi-score">See all-time greats</a>
-            </div> <!-- end .meta_block -->
-            
-            <div class="meta_block">
-                <button>restart</button>
-                <button>help</button>
-            </div> <!-- end .meta_block -->
-        </div> <!-- end #meta_container -->
+        <div class="wrapper">
+            <div class="col_container">
+                <div id="page_container" class="col two-thirds">
+                    <div id="page_instructions" class="page">
+                        <h1>Instructions</h1>
+                        This is how you play the game:
+                        <ul>
+                            <li>20 points per match</li>
+                            <li>+ bonus points for completing the game faster</li>
+                            <li>if you're having trouble:
+                                <ul>
+                                    <li>select an easier difficulty setting or</li>
+                                    <li>press the help button and the background will warm or cool as you get closer to a match</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div> <!-- end #page_instructions -->
+                    
+                    <div id="page_play" class="page">
+                        <div id="page_easy" class="page">
+                            
+                        </div> <!-- end #page_easy -->
+                        
+                        <div id="page_medium" class="page">
+                            
+                        </div> <!-- end #page_medium -->
+                        
+                        <div id="page_hard" class="page">
+                            
+                        </div> <!-- end #page_hard -->
+                    </div> <!-- end #page_play -->
+                    
+                    <div id="page_hi-score" class="page">
+                        
+                    </div> <!-- end #page_hi-score -->
+                 
+                </div> <!-- end #page_container -->
+                 
+                <div id="meta_container" class="col third">
+                    <div class="meta_block">
+                        <h1>Memory Card Game</h1>
+                    </div> <!-- end .meta_block -->
+                    
+                    <div class="meta_block">
+                        <div id="timer"></div>
+                    </div> <!-- end .meta_block -->
+                    
+                    <div class="meta_block">
+                        <h2>Your current score</h2>
+                        <div id="scoreCurrent"></div>    
+                    </div> <!-- end .meta_block -->
+                    
+                    <div class="meta_block">
+                        <h2>Your high score</h2>
+                        <div id="scoreHigh"></div>
+                        <a href="/hi-score">See all-time greats</a>
+                    </div> <!-- end .meta_block -->
+                    
+                    <div class="meta_block">
+                        <h2>Select difficulty and start</h2>
+                        <a href="/play/easy">Easy</a>
+                        <a href="/play/medium">Medium</a>
+                        <a href="/play/hard">Hard</a>
+                    </div> <!-- end .meta_block -->
+                    
+                    <div class="meta_block">
+                        <button>restart</button>
+                        <button>help</button>
+                    </div> <!-- end .meta_block -->
+                </div> <!-- end #meta_container -->
+            </div> <!-- end .col_container -->
+        </div> <!-- end .wrapper -->
     </body>
 </html>
