@@ -2,9 +2,53 @@
     <head>
         <title>Memory Game by Winston Hoy</title>
         
+        <link href="memoryCardGame.css" rel="stylesheet" />
+        
+        <script type="text/javascript" src="js/jquery.js"></script>
+        <script type="text/javascript" src="js/ajaxcms.js"></script>
+        <script type="text/javascript" src="js/memoryCardGame.js"></script>
     </head>
     
     <body>
+       <div id="game_container">
+            <div id="page_instructions" class="page">
+                
+            </div> <!-- end #page_instructions -->
         
+            <div id="page_game" class="page">
+                
+            </div> <!-- end #page_game -->
+            
+            <div id="page_hi-score" class="page">
+                
+            </div> <!-- end #page_hi-score -->
+        
+       </div> <!-- end #game_container -->
+        
+        <div id="meta_container">
+            <div class="meta_block">
+                <h1>Memory Card Game</h1>
+            </div> <!-- end .meta_block -->
+            
+            <div class="meta_block">
+                <div id="timer"></div>
+            </div> <!-- end .meta_block -->
+            
+            <div class="meta_block">
+                <h2>Your current score</h2>
+                <div id="scoreCurrent"></div>    
+            </div> <!-- end .meta_block -->
+            
+            <div class="meta_block">
+                <h2>Your high score</h2>
+                <div id="scoreHigh"></div>
+                <a href="/hi-score">See all-time greats</a>
+            </div> <!-- end .meta_block -->
+            
+            <div class="meta_block">
+                <button>restart</button>
+                <button>help</button>
+            </div> <!-- end .meta_block -->
+        </div> <!-- end #meta_container -->
     </body>
 </html>
