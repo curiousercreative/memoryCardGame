@@ -66,7 +66,7 @@ winston@curiousercreative.com
     // Create our nav object
         window.nav = new Default_nav();
         nav.title = 'Memory Game by Winston Hoy';
-        nav.animationDuration = 0;
+        nav.animationDuration = 500;
     
     //
         nav.Page.prototype.show_page_slide = function (duration) {
@@ -217,7 +217,7 @@ winston@curiousercreative.com
             this.timer.start();
         }
         
-        nav.pages.play.stopGame = function (difficulty = "easy") {
+        nav.pages.play.stopGame = function (difficulty, gameWon) {
         
         // event handler unbind
             $('#page_'+difficulty+' .card').not('.matched').off('click');
@@ -230,12 +230,18 @@ winston@curiousercreative.com
         
         nav.pages.play.checkMatch = function () {
             // match
-            if ($('.card.flipped:not(.matched)').first().attr('data-id') == $('.card.flipped:not(.matched)').last().attr('data-id')) {
+            if ($('#page_'+nav.active_page+' .card.flipped:not(.matched)').first().attr('data-id') == $(nav.active_page+' .card.flipped:not(.matched)').last().attr('data-id')) {
                 this.matchMade();
             }
             // not match
             else {
                 this.matchMiss();
+            }
+            
+            // is game over?
+            if (!$('#page_'+nav.active_page+' .card:not(.matched)').exists()) {
+                this.stopGame();
+                this.gameWon();
             }
         }
         
@@ -251,14 +257,14 @@ winston@curiousercreative.com
         
         nav.pages.play.matchMade = function () {
         // remove event listener, add class
-            $('.card.flipped:not(.matched)').addClass('matched').off('click');
+            $('#page_'+nav.active_page+' .card.flipped:not(.matched)').addClass('matched').off('click');
             
         // add points
         
         }
         
         nav.pages.play.matchMissReset = function () {
-            $('.card.flipped:not(.matched)').removeClass('flipped');
+            $('#page_'+nav.active_page+' .card.flipped:not(.matched)').removeClass('flipped');
             this.matchMissActive = false;
             clearTimeout(this.matchMissTimeout);
         }
@@ -287,12 +293,12 @@ winston@curiousercreative.com
             nav.pages.play.pages.easy = new nav.Page('easy', {title: 'Easy', defaultTransition: 'slide'});
             nav.pages.play.pages.easy.pre_enter = function () {
                 if (debug) console.log('pre_entering page with id:'+this.id);
-                nav.pages.play.startGame('easy');
+                nav.pages.play.startGame(this.id);
             }
             
             nav.pages.play.pages.easy.pre_exit = function () {
                 if (debug) console.log('pre_entering page with id:'+this.id);
-                nav.pages.play.stopGame('easy');
+                nav.pages.play.stopGame(this.id);
             }
             
             nav.pages.play.pages.easy.colors = [
@@ -308,6 +314,16 @@ winston@curiousercreative.com
             
             //Medium
             nav.pages.play.pages.medium = new nav.Page('medium', {title: 'Medium', defaultTransition: 'slide'});
+            nav.pages.play.pages.medium.pre_enter = function () {
+                if (debug) console.log('pre_entering page with id:'+this.id);
+                nav.pages.play.startGame(this.id);
+            }
+            
+            nav.pages.play.pages.medium.pre_exit = function () {
+                if (debug) console.log('pre_entering page with id:'+this.id);
+                nav.pages.play.stopGame(this.id);
+            }
+            
             nav.pages.play.pages.medium.colors = [
                 "red",
                 "green",
@@ -326,6 +342,16 @@ winston@curiousercreative.com
             
             //Hard
             nav.pages.play.pages.hard = new nav.Page('hard', {title: 'Hard', defaultTransition: 'slide'});
+            nav.pages.play.pages.hard.pre_enter = function () {
+                if (debug) console.log('pre_entering page with id:'+this.id);
+                nav.pages.play.startGame(this.id);
+            }
+            
+            nav.pages.play.pages.hard.pre_exit = function () {
+                if (debug) console.log('pre_entering page with id:'+this.id);
+                nav.pages.play.stopGame(this.id);
+            }
+            
             nav.pages.play.pages.hard.colors = [
                 "red",
                 "green",

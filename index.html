@@ -9,7 +9,7 @@
         <script type="text/javascript" src="js/ajaxcms.js"></script>
         <script type="text/javascript" src="js/memoryCardGame.js"></script>
         <script type="text/javascript">
-            var animation_duration = 0;
+            var animation_duration = 500;
             var debug = true;
             var isMobile = false;
             var default_page = $.cookie('instructions_shown') == "true" ? "play" : "instructions";
@@ -61,6 +61,18 @@
                     </div> <!-- end .meta_block -->
                     
                     <div class="meta_block">
+                        <h2>Select difficulty and start</h2>
+                        <a href="/play/easy">Easy</a>
+                        <a href="/play/medium">Medium</a>
+                        <a href="/play/hard">Hard</a>
+                    </div> <!-- end .meta_block -->
+                    
+                    <div class="meta_block">
+                        <button>restart</button>
+                        <button>help</button>
+                    </div> <!-- end .meta_block -->
+                    
+                    <div class="meta_block">
                         <h2>Timer</h2>
                         <time id="timer">00:00</time>
                     </div> <!-- end .meta_block -->
@@ -74,18 +86,6 @@
                         <h2>Your high score</h2>
                         <div id="scoreHigh"></div>
                         <a href="/hi-score">See all-time greats</a>
-                    </div> <!-- end .meta_block -->
-                    
-                    <div class="meta_block">
-                        <h2>Select difficulty and start</h2>
-                        <a href="/play/easy">Easy</a>
-                        <a href="/play/medium">Medium</a>
-                        <a href="/play/hard">Hard</a>
-                    </div> <!-- end .meta_block -->
-                    
-                    <div class="meta_block">
-                        <button>restart</button>
-                        <button>help</button>
                     </div> <!-- end .meta_block -->
                 </div> <!-- end #meta_container -->
             </div> <!-- end .col_container -->
