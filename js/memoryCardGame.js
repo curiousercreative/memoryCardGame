@@ -68,21 +68,154 @@ winston@curiousercreative.com
         nav.title = 'Memory Game by Winston Hoy';
         nav.animationDuration = 0;
     
+    //
+        nav.Page.prototype.show_page_slide = function (duration) {
+            if (debug) console.log('showing page using scroll method:'+this.id);
+            duration = typeof(duration) !== 'number' ? animation_duration : duration;
+            var page_container = this.jObj.parent().is('#page_play') ? $('#page_play') : $('#page_container');
+            
+        // Stop the current scroll
+            page_container.stop(true);
+        
+        // Workaround for IE8
+            var target = !nav.ie8 ? '#page_'+this.id : page_container.scrollLeft() + $('#page_'+this.id).position().left;
+            page_container.scrollTo(target, {
+                axis: 'x',
+                duration: duration
+            });
+        }
+        
+        nav.Page.prototype.hide_page_slide = function () {}
+    
     // ------- Create our page objects and override any Page methods
-    // Home page
-        nav.pages.home = new nav.Page('home', {aliases: ['landing', 'contact', '', '*', 'map'], title: 'Home', defaultTransition: 'slide'});
-        nav.pages.home.pre_initialize = function () {
+    // Play page
+        nav.pages.play = new nav.Page('play', {aliases: ['landing', 'home', '', 'game', '*'], title: 'Play', defaultTransition: 'slide'});
+        nav.pages.play.pre_initialize = function () {
             if (debug) console.log('pre_initializing page with id:'+this.id);
         }
         
-        nav.pages.home.pre_enter = function () {
+        nav.pages.play.pre_enter = function () {
             if (debug) console.log('pre_entering page with id:'+this.id);
         }
         
-        nav.pages.home.pre_exit = function () {
+        nav.pages.play.pre_exit = function () {
             if (debug) console.log('pre_exiting page with id:'+this.id);
         }
         
+        nav.pages.play.generateGame = function (difficulty = "easy") {
+            // copy our colors array
+            var cardsPossible = [];
+            var cardsShuffled = [];
+            var colors = $.extend({}, nav.pages.play.pages[difficulty].colors);
+            
+            switch (difficulty) {
+                case "hard":
+                    var patterns = $.extend({}, nav.pages.play.pages[difficulty].patterns);
+                    
+                // We'll add all of the colors in four times, once for each pattern to combine with
+                // 1. Add all of our none colored cards
+                    cardsPossible.concat(nav.shuffleArray(colors));
+                    
+                // 2/3/4 For each color, add it in each available pattern
+                    for (var i = 0; i < colors.length; i++) {
+                        for (var ii = 0; i < patterns.length; ii++) {
+                            cardsPossible.push(colors[i]+" "+patterns[ii]);
+                        }                    
+                    }
+                    
+                // Shuffle it once altogether and we have every card in the deck once
+                    cardsShuffled.concat(nav.shuffleArray(cardsPossible));
+                    
+                    break;
+            // easy and medium is the same method
+                case "medium":
+                case "easy":
+                    cardsPossible = colors;
+                // Shuffle the cards once into our deck
+                    cardsShuffled.concat(nav.shuffleArray(cardsPossible));
+            }
+                    
+        // Now we have all of the cards in our deck but just once
+        // Let's shuffle the cards and add them to our deck again to have 2 of each
+            cardsShuffled.concat(nav.shuffleArray(cardsPossible));
+            
+        // Let's shuffle it once more so they aren't divided and predictable to find
+            nav.shuffleArray(cardsShuffled);
+            
+        // Now let's add them to the DOM            
+            $.each(cardsShuffled, function (val) {
+                // Add each card
+                $('#page_'+difficulty).append('<div class="card '+val+'"></div>');
+            });
+        }
+        
+        // Subpages
+            nav.pages.play.pages.easy = new nav.Page('easy', {title: 'Easy', defaultTransition: 'slide'});
+            nav.pages.play.pages.easy.colors = [
+                "red",
+                "green",
+                "blue",
+                "yellow",
+                "purple",
+                "pink",
+                "brown",
+                "orange"
+            ];
+            
+            nav.pages.play.pages.medium = new nav.Page('medium', {title: 'Medium', defaultTransition: 'slide'});
+            nav.pages.play.pages.medium.colors = [
+                "red",
+                "green",
+                "blue",
+                "yellow",
+                "purple",
+                "pink",
+                "brown",
+                "orange",
+                "cyan"
+            ];
+            
+            nav.pages.play.pages.hard = new nav.Page('hard', {title: 'Hard', defaultTransition: 'slide'});
+            nav.pages.play.pages.hard.colors = [
+                "red",
+                "green",
+                "blue",
+                "yellow",
+                "purple",
+                "pink",
+                "brown",
+                "orange"
+            ];
+            
+            nav.pages.play.pages.hard.patterns = [
+                //"none",
+                "checkered",
+                "striped",
+                "diagonal"
+            ]
+        
+    // Instructions page
+        nav.pages.instructions = new nav.Page('instructions', {title: 'Instructions', defaultTransition: 'slide'});
+        
+    // Hi-Score page
+        nav.pages.hiscore = new nav.Page('hi-score', {title: 'Hi-Score', defaultTransition: 'slide'});
+    
+    // App specific methods
+        /**
+        * Thanks to Laurens Holst: http://stackoverflow.com/a/12646864
+        * Randomize array element order in-place.
+        * Using Fisher-Yates shuffle algorithm.
+        */
+        nav.shuffleArray = function (array) {
+            for (var i = array.length - 1; i > 0; i--) {
+                var j = Math.floor(Math.random() * (i + 1));
+                var temp = array[i];
+                array[i] = array[j];
+                array[j] = temp;
+            }
+            return array;
+        }
+    
     // General methods
         nav.set_font_size = function () {
             nav.font_size = nav.wrap_w*0.011111111111111111;
