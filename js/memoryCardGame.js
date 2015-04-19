@@ -106,44 +106,47 @@ winston@curiousercreative.com
             // copy our colors array
             var cardsPossible = [];
             var cardsShuffled = [];
-            var colors = $.extend({}, nav.pages.play.pages[difficulty].colors);
-            
+            var colors = $.extend([], nav.pages.play.pages[difficulty].colors);
             switch (difficulty) {
+            // hard and medium share method
                 case "hard":
-                    var patterns = $.extend({}, nav.pages.play.pages[difficulty].patterns);
+                case "medium":
+                    var patterns = $.extend([], nav.pages.play.pages[difficulty].patterns);
                     
-                // We'll add all of the colors in four times, once for each pattern to combine with
+                // We'll add all of the colors in as many times as there are variation in pattern
+                // once for each pattern to combine with
                 // 1. Add all of our none colored cards
-                    cardsPossible.concat(nav.shuffleArray(colors));
+                    cardsPossible = $.extend([], nav.shuffleArray(colors));
                     
-                // 2/3/4 For each color, add it in each available pattern
+                // 2(3,4) For each color, add it in each available pattern
                     for (var i = 0; i < colors.length; i++) {
-                        for (var ii = 0; i < patterns.length; ii++) {
+                        for (var ii = 0; ii < patterns.length; ii++) {
                             cardsPossible.push(colors[i]+" "+patterns[ii]);
-                        }                    
+                        }
                     }
                     
                 // Shuffle it once altogether and we have every card in the deck once
-                    cardsShuffled.concat(nav.shuffleArray(cardsPossible));
+                    //cardsShuffled = cardsPossible.concat(nav.shuffleArray(cardsPossible));
                     
                     break;
-            // easy and medium is the same method
-                case "medium":
+            
+            // easy is a simpler method
                 case "easy":
-                    cardsPossible = colors;
+                    cardsPossible = $.extend([], colors);
+                
                 // Shuffle the cards once into our deck
-                    cardsShuffled.concat(nav.shuffleArray(cardsPossible));
+                    cardsShuffled = cardsPossible.concat(nav.shuffleArray(cardsPossible));
             }
                     
         // Now we have all of the cards in our deck but just once
         // Let's shuffle the cards and add them to our deck again to have 2 of each
-            cardsShuffled.concat(nav.shuffleArray(cardsPossible));
+            cardsShuffled = cardsPossible.concat(nav.shuffleArray(cardsPossible));
             
         // Let's shuffle it once more so they aren't divided and predictable to find
             nav.shuffleArray(cardsShuffled);
             
         // Now let's add them to the DOM            
-            $.each(cardsShuffled, function (val) {
+            $.each(cardsShuffled, function (key, val) {
                 // Add each card
                 $('#page_'+difficulty).append('<div class="card '+val+'"></div>');
             });
@@ -174,6 +177,10 @@ winston@curiousercreative.com
                 "orange",
                 "cyan"
             ];
+            nav.pages.play.pages.medium.patterns = [
+                //"none",
+                "checkered"
+            ];
             
             nav.pages.play.pages.hard = new nav.Page('hard', {title: 'Hard', defaultTransition: 'slide'});
             nav.pages.play.pages.hard.colors = [
@@ -192,7 +199,7 @@ winston@curiousercreative.com
                 "checkered",
                 "striped",
                 "diagonal"
-            ]
+            ];
         
     // Instructions page
         nav.pages.instructions = new nav.Page('instructions', {title: 'Instructions', defaultTransition: 'slide'});
