@@ -345,6 +345,10 @@ button {
 	vertical-align: top;
 }
 
+.meta_block + .meta_block {
+    margin-top: 2em;
+}
+
 /* -------------
   Page specific styles
 --------------- */
@@ -359,6 +363,9 @@ button {
 	white-space: normal;
 }
 
+/* -------------
+  Card styles
+--------------- */
 .card {
 	display: inline-block;
     border: 1px solid;
@@ -385,6 +392,41 @@ button {
 	margin: 0.5%;
 }
 
+.card.flipped.red {
+	background-color: red;
+}
+
+.card.flipped.green {
+	background-color: green;
+}
+
+.card.flipped.blue {
+	background-color: blue;
+}
+
+.card.flipped.yellow {
+	background-color: yellow;
+}
+
+.card.flipped.purple {
+	background-color: purple;
+}
+
+.card.flipped.pink {
+	background-color: pink;
+}
+
+.card.flipped.brown {
+	background-color: brown;
+}
+
+.card.flipped.orange {
+	background-color: orange;
+}
+
+.card.flipped.cyan {
+	background-color: cyan;
+}
 /* -------------
   Browser specific style overrides
 --------------- */

@@ -102,6 +102,60 @@ winston@curiousercreative.com
             if (debug) console.log('pre_exiting page with id:'+this.id);
         }
         
+        nav.pages.play.matchMissActive = false;
+        nav.pages.play.matchMissTimeout;
+        nav.pages.play.timer = {
+            lastTime: 0,
+            interval: 0,
+            startTime: 0,
+            jObj: $('#timer'),
+            start: function () {
+                this.startTime = this.getTime();
+                this.interval = setInterval(function () {nav.pages.play.timer.increment();}, 1000);
+            },
+            
+            stop: function () {
+                clearInterval(this.interval);
+            },
+            
+            getTime: function () {
+                var now = new Date().getTime() / 1000;
+                var start = this.startTime;
+                var time = now - start;
+                return time;
+            },
+            
+            setTime: function (formattedTime) {
+                this.jObj.html(formattedTime);
+            },
+            
+            formatTime: function (secondsRaw) {
+                var minutes = parseInt(secondsRaw / 60, 10);
+                var seconds = minutes > 0 ? secondsRaw - minutes*60 : secondsRaw;
+                minutes = minutes > 9 ? minutes : '0'+minutes;
+                seconds = seconds > 9 ? Math.round(seconds) : '0'+Math.round(seconds);
+                return minutes+':'+seconds;
+            },
+            
+            reset:function () {
+                this.lastTime = this.getTime();
+                this.setTime('00:00');
+                this.startTime = 0;
+            },
+            
+            restart: function () {
+                this.stop();
+                this.reset();
+                this.start();
+            },
+            
+            increment: function () {
+                var secondsRaw = this.getTime();
+                var formattedTime = this.formatTime(secondsRaw);
+                this.setTime(formattedTime);
+            }
+        }
+        
         nav.pages.play.generateGame = function (difficulty = "easy") {
             // copy our colors array
             var cardsPossible = [];
@@ -148,13 +202,99 @@ winston@curiousercreative.com
         // Now let's add them to the DOM            
             $.each(cardsShuffled, function (key, val) {
                 // Add each card
-                $('#page_'+difficulty).append('<div class="card '+val+'"></div>');
+                $('#page_'+difficulty).append('<div data-id="'+val+'" class="card '+val+'"></div>');
+            });
+        }
+        nav.pages.play.startGame = function (difficulty = "easy") {
+        // generate game
+            this.generateGame(difficulty);
+        
+        // event handlers
+            this.onCardClick(difficulty);
+            
+        // start timer
+            this.timer.reset();
+            this.timer.start();
+        }
+        
+        nav.pages.play.stopGame = function (difficulty = "easy") {
+        
+        // event handler unbind
+            $('#page_'+difficulty+' .card').not('.matched').off('click');
+        
+        // Enter score into high score    
+        
+        // stop timer
+            this.timer.stop();
+        }
+        
+        nav.pages.play.checkMatch = function () {
+            // match
+            if ($('.card.flipped:not(.matched)').first().attr('data-id') == $('.card.flipped:not(.matched)').last().attr('data-id')) {
+                this.matchMade();
+            }
+            // not match
+            else {
+                this.matchMiss();
+            }
+        }
+        
+        nav.pages.play.matchMiss = function () {
+        // remove flipped class
+            this.matchMissActive = true;
+            this.matchMissTimeout = setTimeout(function () {
+                nav.pages.play.matchMissReset();
+            }, 1000);
+            
+        // deduct points
+        }
+        
+        nav.pages.play.matchMade = function () {
+        // remove event listener, add class
+            $('.card.flipped:not(.matched)').addClass('matched').off('click');
+            
+        // add points
+        
+        }
+        
+        nav.pages.play.matchMissReset = function () {
+            $('.card.flipped:not(.matched)').removeClass('flipped');
+            this.matchMissActive = false;
+            clearTimeout(this.matchMissTimeout);
+        }
+        
+        nav.pages.play.onCardClick = function (difficulty) {
+            $('#page_'+difficulty+' .card').not('.matched').off('click').on('click', function () {
+            // Check for a match miss that's waiting to reset
+                if (nav.pages.play.matchMissActive) nav.pages.play.matchMissReset();
+            
+            // Make sure this isn't flipped
+                if (!$(this).hasClass('flipped')) {
+                // Flip it over
+                    $(this).addClass('flipped');
+                    
+                // Does it have a flipped pair buddy already?
+                    var pair = $(this).siblings('.flipped').not('.matched');
+                    if (pair.exists()) {
+                        nav.pages.play.checkMatch();
+                    }
+                }
             });
         }
         
         // Subpages
             //Easy
             nav.pages.play.pages.easy = new nav.Page('easy', {title: 'Easy', defaultTransition: 'slide'});
+            nav.pages.play.pages.easy.pre_enter = function () {
+                if (debug) console.log('pre_entering page with id:'+this.id);
+                nav.pages.play.startGame('easy');
+            }
+            
+            nav.pages.play.pages.easy.pre_exit = function () {
+                if (debug) console.log('pre_entering page with id:'+this.id);
+                nav.pages.play.stopGame('easy');
+            }
+            
             nav.pages.play.pages.easy.colors = [
                 "red",
                 "green",
@@ -206,62 +346,13 @@ winston@curiousercreative.com
         
     // Instructions page
         nav.pages.instructions = new nav.Page('instructions', {title: 'Instructions', defaultTransition: 'slide'});
-        
+        nav.pages.instructions.pre_enter = function () {
+            if (debug) console.log('pre_entering page with id:'+this.id);
+            
+            $.cookie('instructions_shown', 'true');
+        }
     // Hi-Score page
         nav.pages.hiscore = new nav.Page('hi-score', {title: 'Hi-Score', defaultTransition: 'slide'});
-    
-    // App specific objects
-        nav.timer = {
-            lastTime: 0,
-            interval: 0,
-            startTime: 0,
-            jObj: $('#timer'),
-            start: function () {
-                this.startTime = this.getTime();
-                this.interval = setInterval(function () {nav.timer.increment();}, 1000);
-            },
-            
-            stop: function () {
-                clearInterval(this.interval);
-            },
-            
-            getTime: function () {
-                var now = new Date().getTime() / 1000;
-                var start = this.startTime;
-                var time = now - start;
-                return time;
-            },
-            
-            setTime: function (formattedTime) {
-                this.jObj.html(formattedTime);
-            },
-            
-            formatTime: function (secondsRaw) {
-                var minutes = parseInt(secondsRaw / 60, 10);
-                var seconds = minutes > 0 ? secondsRaw - minutes*60 : secondsRaw;
-                minutes = minutes > 9 ? minutes : '0'+minutes;
-                seconds = seconds > 9 ? Math.round(seconds) : '0'+Math.round(seconds);
-                return minutes+':'+seconds;
-            },
-            
-            reset:function () {
-                this.lastTime = this.getTime();
-                this.setTime('00:00');
-                this.startTime = 0;
-            },
-            
-            restart: function () {
-                this.stop();
-                this.reset();
-                this.start();
-            },
-            
-            increment: function () {
-                var secondsRaw = this.getTime();
-                var formattedTime = this.formatTime(secondsRaw);
-                this.setTime(formattedTime);
-            }
-        }
     
     // App specific methods
         /**
