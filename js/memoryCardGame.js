@@ -153,6 +153,7 @@ winston@curiousercreative.com
         }
         
         // Subpages
+            //Easy
             nav.pages.play.pages.easy = new nav.Page('easy', {title: 'Easy', defaultTransition: 'slide'});
             nav.pages.play.pages.easy.colors = [
                 "red",
@@ -165,6 +166,7 @@ winston@curiousercreative.com
                 "orange"
             ];
             
+            //Medium
             nav.pages.play.pages.medium = new nav.Page('medium', {title: 'Medium', defaultTransition: 'slide'});
             nav.pages.play.pages.medium.colors = [
                 "red",
@@ -182,6 +184,7 @@ winston@curiousercreative.com
                 "checkered"
             ];
             
+            //Hard
             nav.pages.play.pages.hard = new nav.Page('hard', {title: 'Hard', defaultTransition: 'slide'});
             nav.pages.play.pages.hard.colors = [
                 "red",
@@ -206,6 +209,59 @@ winston@curiousercreative.com
         
     // Hi-Score page
         nav.pages.hiscore = new nav.Page('hi-score', {title: 'Hi-Score', defaultTransition: 'slide'});
+    
+    // App specific objects
+        nav.timer = {
+            lastTime: 0,
+            interval: 0,
+            startTime: 0,
+            jObj: $('#timer'),
+            start: function () {
+                this.startTime = this.getTime();
+                this.interval = setInterval(function () {nav.timer.increment();}, 1000);
+            },
+            
+            stop: function () {
+                clearInterval(this.interval);
+            },
+            
+            getTime: function () {
+                var now = new Date().getTime() / 1000;
+                var start = this.startTime;
+                var time = now - start;
+                return time;
+            },
+            
+            setTime: function (formattedTime) {
+                this.jObj.html(formattedTime);
+            },
+            
+            formatTime: function (secondsRaw) {
+                var minutes = parseInt(secondsRaw / 60, 10);
+                var seconds = minutes > 0 ? secondsRaw - minutes*60 : secondsRaw;
+                minutes = minutes > 9 ? minutes : '0'+minutes;
+                seconds = seconds > 9 ? Math.round(seconds) : '0'+Math.round(seconds);
+                return minutes+':'+seconds;
+            },
+            
+            reset:function () {
+                this.lastTime = this.getTime();
+                this.setTime('00:00');
+                this.startTime = 0;
+            },
+            
+            restart: function () {
+                this.stop();
+                this.reset();
+                this.start();
+            },
+            
+            increment: function () {
+                var secondsRaw = this.getTime();
+                var formattedTime = this.formatTime(secondsRaw);
+                this.setTime(formattedTime);
+            }
+        }
     
     // App specific methods
         /**
