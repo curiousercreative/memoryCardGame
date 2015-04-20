@@ -220,7 +220,7 @@ winston@curiousercreative.com
             }
         }
         
-        nav.pages.play.generateGame = function (difficulty = "easy") {
+        nav.pages.play.generateGame = function (difficulty) {
             // copy our colors array
             var cardsPossible = [];
             var cardsShuffled = [];
@@ -269,7 +269,7 @@ winston@curiousercreative.com
                 $('#page_'+difficulty).append('<div data-id="'+val+'" class="card '+val+'"></div>');
             });
         }
-        nav.pages.play.startGame = function (difficulty = "easy") {
+        nav.pages.play.startGame = function (difficulty) {
         // clear game
             this.clearGame(difficulty);
             

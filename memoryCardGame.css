@@ -89,10 +89,7 @@ body {
 	font-size: 1rem;
 	min-height: 100%;
 	color: white;
-	background: #031649 url('graphics/bg.svg') no-repeat;
-	background-position: center 20%;
-	background-size: cover;
-	background-attachment: scroll;
+	background: #031649;
 	overflow: hidden;
 	top: 0;
 	left: 0;
