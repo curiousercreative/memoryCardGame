@@ -167,8 +167,8 @@ winston@curiousercreative.com
             currentPenalty: 0,
             currentParTime: 0,
             penalty: {
-                easy: 5,
-                medium: 3,
+                easy: 3,
+                medium: 2,
                 hard: 1
             },
             parTime: {
@@ -217,6 +217,21 @@ winston@curiousercreative.com
             reset: function () {
                 this.checkHiScore();
                 this.setScore(0);
+            },
+            gameWon: function () {
+                var score = this.getScore();
+                
+            // Calculate the factor by which this match was made before the par time
+                var bonus = this.currentParTime / nav.pages.play.timer.getTime();
+                
+            // Award a bonus for making matches under par time in the form of a multiplier
+                var bonus = bonus > 1 ? bonus : 1;
+                
+                score += 1000*bonus;
+                this.setScore(score);
+                
+            // Check hi score
+                this.checkHiScore();
             }
         }
         
@@ -372,7 +387,7 @@ winston@curiousercreative.com
         
         nav.pages.play.gameWon = function () {
         // check hi score
-            this.score.checkHiScore();
+            this.score.gameWon();
         }
         
         // Subpages
