@@ -282,10 +282,6 @@ defaultPageTransition = string; // Which transition method to use? scroll or fad
                 if (
                     // media query for resolution
                     matchMedia("(webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi)").matches
-                    // firefox only
-                    && (
-                        $.browser && $.browser.mozilla
-                    )
                 ) return this.zoom = DetectZoom.zoom()/2;
                 else return this.zoom = DetectZoom.zoom();
             }

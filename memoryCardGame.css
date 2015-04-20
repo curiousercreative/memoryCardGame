@@ -25,15 +25,10 @@ http://curiousercreative.com
 	-webkit-box-sizing: border-box;
 }
 
-body, div, ul, li, p {
+body, div, p {
 	margin: 0;
 	padding: 0;
 	border: none;
-}
-
-h1,h2,h3,h4,h5,h6 {
-	margin: 0;
-	font-weight: normal;
 }
 
 ul {
@@ -112,11 +107,11 @@ h1,h2,h3,h4,h5,h6 {
 }
 
 h1 { 
-
+	margin-bottom: 1em;
 }
 
 h2 {
-
+	margin-bottom: 0.25em;
 }
 
 h3 {
@@ -147,39 +142,41 @@ p + p {
 	margin-top: 1em;
 }
 
+ul {
+	list-style: disc;
+}
+
+li + li {
+	margin-top: 0.5em;
+}
+
 a,
 button {
 	cursor: pointer;
 	color: #FFF;
 	background: none repeat scroll 0% 0% #44A4F5;
-	margin-left: 0.5em;
+	text-transform: lowercase;
 	padding: 0px 0.5em;
-	height: 1.62em;
-	font: 1.41em "latolight",sans-serif;
+	height: 1.5em;
+	font: 1.41em/1.5em "latolight",sans-serif;
 	letter-spacing: 0.05em;
 	display: inline-block;
 	vertical-align: middle;
 }
 
-.wrap {
-	margin: 0 auto; /* 70/1400 */
-	width: 90%;
-	position: relative;
+a.active {
+	background: orange;
 }
 
-.wrap.nofit {
-	max-width: 90%;
-	max-height: none;
-	height: auto;
+a + a,
+a + button,
+button + a {
+	margin-left: 0.5em;
 }
 
 .col_container {
 	word-spacing: -0.2857em;
 	white-space: nowrap;
-}
-
-.col_container.nonowrap {
-	white-space: normal;
 }
 
 .col {
@@ -201,81 +198,6 @@ button {
 .third + .two-thirds,
 .two-thirds + .third {
 	margin-left: 3.4375%; /* 55/1600 */
-}
-
-.wrap .third {
-	width: 30.872483221477%; /* 460/1490 */
-}
-	
-.wrap .two-thirds {
-	width: 65.436241610738%; /* (460*2 + 55) / 1490 */
-}
-
-.wrap .third + .third,
-.wrap .third + .two-thirds,
-.wrap .two-thirds + .third,
-.wrap .sixth + .sixth {
-	margin-left: 3.691275167785%; /* 55 / 1490 */
-}
-
-.third:nth-child(3n+1) {
-	margin-left: 0 !important;
-}
-
-.half {
-	width: 49%;
-}
-
-.half + .half {
-	margin-left: 2%;
-}
-
-.wrap .two-thirds .half {
-	width: 47.179487179487%; /* 460 / (460*2+55) */
-}
-
-.wrap .two-thirds .half + .half {
-	margin-left: 5.641025641026%;
-}
-
-.wrap .third .half {
-	width: 44.13043478%;/* 203 / 460 */
-}
-
-.wrap .third .half + .half {
-	margin-left: 11.9562174% /* 55 / 460 */
-}
-
-.half:nth-child(2n+1) {
-    margin-left: 0 !important;
-}
-
-.sixth:nth-child(6n+1) {
-    margin-left: 0 !important;
-}
-
-.sixth:nth-child(1),
-.sixth:nth-child(2),
-.sixth:nth-child(3),
-.sixth:nth-child(4),
-.sixth:nth-child(5),
-.sixth:nth-child(6) {
-	margin-top: 0 !important;
-	margin-left: 3.691275167785%; /* 55 / 1490 */
-}
-
-.wrap .sixth {
-	width: 13.59060403%; /* 202.5/1490 */
-	margin-top: 3.691275167785%; /* 55 / 1490 */
-}
-
-.bg {
-	position: absolute;
-	z-index: -1;
-	top: 0;
-	left: 0;
-	width: 100%;
-	height: 100%;
 }
 
 /* -------------
@@ -329,6 +251,12 @@ button {
 #page_game > .page,
 #page_play > .page {
 	white-space: normal;
+}
+
+#page_instructions .subheading {
+	font-size: 1.5em;
+	line-height: 1.1em;
+	margin-t
 }
 
 /* -------------

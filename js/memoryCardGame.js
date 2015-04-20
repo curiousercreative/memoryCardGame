@@ -484,7 +484,7 @@ winston@curiousercreative.com
     
     // General methods
         nav.set_font_size = function () {
-            nav.font_size = nav.wrap_w*0.011111111111111111;
+            nav.font_size = $(window).width()*0.011111111111111111;
             nav.font_size = nav.font_size < 11 ? 11 : nav.font_size;
             
             $('html').css('font-size', nav.font_size+'px');
@@ -507,11 +507,10 @@ winston@curiousercreative.com
         // Check the window width
             nav.setIsDesktopWidth();
             
-            if (nav.checkZoom(nav.getZoom())) {
-                nav.set_page_size();
-            
+            if (nav.checkZoom(nav.getZoom())) {            
                 nav.set_font_size();
             }
+            
             
         // resize active pages
             if (nav.active_pages && nav.active_pages.length > 0) {
@@ -620,6 +619,26 @@ winston@curiousercreative.com
             }
         // Legacy doesn't support media queries, always desktop
             else return nav.isDesktop = true;
+        }
+        
+        nav.updateNav = function () {
+            if (debug) console.log('updating nav');
+        
+        // Out with the old
+            $('a.active').removeClass('active');
+            
+            var search = nav.active_pages.length > 1 ? '/play/'+this.active_page : '/'+this.active_page;
+            var nav_active = $('');
+            console.log(search);
+            $('a').each(function () {
+                if ($(this).attr('href').search(search) == 0) {
+                    $(this).addClass('active');
+                }
+            });
+            
+        
+            
+        
         }
         
     // initialize site

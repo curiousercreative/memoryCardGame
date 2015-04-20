@@ -22,17 +22,35 @@
                 <div id="page_container" class="col two-thirds">
                     <div id="page_instructions" class="page">
                         <h1>Instructions</h1>
-                        This is how you play the game:
+                        <h3>
+                            Test your memory and stay mentally sharp.
+                            It's a classic card flipper game, just match the flipped cards two at a time.
+                            Here are the rules specific to this game:
+                        </h3>
                         <ul>
-                            <li>20 points per match</li>
-                            <li>+ bonus points for completing the game faster</li>
-                            <li>if you're having trouble:
+                            <li>You'll receive 20 points per each pair of cards matched</li>
+                            <li>
+                                You'll receive a point penalty for each pair of cards you mismatch.
+                                Each level has it's own point deduction:
                                 <ul>
-                                    <li>select an easier difficulty setting or</li>
-                                    <li>press the help button and the background will warm or cool as you get closer to a match</li>
+                                    <li>Easy: 5pt</li>
+                                    <li>Medium: 3pt</li>
+                                    <li>Hard: 1pt</li>
                                 </ul>
                             </li>
+                            <li>
+                                Each difficulty level has a "par" time to complete the challenge.
+                                You'll receive a bonus point multiplier for finding matches earlier on and all the
+                                way up to the par time. After the par time passes, you won't receive a bonus multiplier anymore.
+                            </li>
+                            
+                            <li>On the medium and hard levels, we introduce patterns to the cards to make it more difficult</li>
                         </ul>
+                        
+                        <h4>Select difficulty and start</h4>
+                        <a href="/play/easy">Easy</a>
+                        <a href="/play/medium">Medium</a>
+                        <a href="/play/hard">Hard</a>
                     </div> <!-- end #page_instructions -->
                     
                     <div id="page_play" class="page">
@@ -68,11 +86,6 @@
                     </div> <!-- end .meta_block -->
                     
                     <div class="meta_block">
-                        <button onclick="nav.pages.play.startGame(nav.active_page)">restart</button>
-                        <a href="/instructions">instructions</a>
-                    </div> <!-- end .meta_block -->
-                    
-                    <div class="meta_block">
                         <h2>Timer</h2>
                         <time id="timer">00:00</time>
                     </div> <!-- end .meta_block -->
@@ -86,6 +99,11 @@
                         <h2>Your high score</h2>
                         <div id="scoreHigh">0</div>
                         <!-- <a href="/hi-score">See all-time greats</a> -->
+                    </div> <!-- end .meta_block -->
+                    
+                    <div class="meta_block">
+                        <a href="/instructions">instructions</a>
+                        <button onclick="nav.pages.play.startGame(nav.active_page)">restart</button>
                     </div> <!-- end .meta_block -->
                 </div> <!-- end #meta_container -->
             </div> <!-- end .col_container -->
