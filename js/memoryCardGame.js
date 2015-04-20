@@ -92,6 +92,9 @@ winston@curiousercreative.com
         nav.pages.play = new nav.Page('play', {aliases: ['landing', 'home', '', 'game', '*'], title: 'Play', defaultTransition: 'slide'});
         nav.pages.play.pre_initialize = function () {
             if (debug) console.log('pre_initializing page with id:'+this.id);
+            
+        // get hi score from cookie
+            if ($.cookie('hiScore')) this.score.setHiScore($.cookie('hiScore'));
         }
         
         nav.pages.play.pre_enter = function () {
@@ -100,6 +103,10 @@ winston@curiousercreative.com
         
         nav.pages.play.pre_exit = function () {
             if (debug) console.log('pre_exiting page with id:'+this.id);
+        }
+        
+        nav.pages.play.pre_resize = function () {
+            this.jObj.scrollTo('#page_'+nav.active_page, {axis: 'x'});
         }
         
         nav.pages.play.matchMissActive = false;
@@ -191,6 +198,25 @@ winston@curiousercreative.com
             },
             getScore: function () {
                 return parseInt($('#scoreCurrent').html(), 10);
+            },
+            getHiScore: function () {
+                return parseInt($('#scoreHigh').html(), 10);  
+            },
+            setHiScore: function (score) {
+                $('#scoreHigh').html(Math.round(score));
+                $.cookie('hiScore', Math.round(score));
+            },
+            checkHiScore: function () {
+                var hiScore = this.getHiScore();
+                var score = this.getScore();
+                
+                if (score > hiScore) {
+                    this.setHiScore(score);
+                }
+            },
+            reset: function () {
+                this.checkHiScore();
+                this.setScore(0);
             }
         }
         
@@ -244,6 +270,9 @@ winston@curiousercreative.com
             });
         }
         nav.pages.play.startGame = function (difficulty = "easy") {
+        // clear game
+            this.clearGame(difficulty);
+            
         // generate game
             this.generateGame(difficulty);
         
@@ -268,6 +297,14 @@ winston@curiousercreative.com
         
         // stop timer
             this.timer.stop();
+        }
+        
+        nav.pages.play.clearGame = function (difficulty) {
+        // Remove the markup
+            $('#page_'+difficulty).html('');
+            
+        // reset score
+            this.score.reset();
         }
         
         nav.pages.play.checkMatch = function () {
@@ -334,7 +371,8 @@ winston@curiousercreative.com
         }
         
         nav.pages.play.gameWon = function () {
-            
+        // check hi score
+            this.score.checkHiScore();
         }
         
         // Subpages
@@ -469,25 +507,11 @@ winston@curiousercreative.com
         // Check the window width
             nav.setIsDesktopWidth();
             
-            nav.hasScroll = !isMobile && matchMedia("(min-aspect-ratio: 2200/968), (max-height: 660px)").matches;
-            
             if (nav.checkZoom(nav.getZoom())) {
                 nav.set_page_size();
             
                 nav.set_font_size();
             }
-            
-        // load facts on large mobile devices
-            if (isMobile && !$('#facts_script').exists() && (nav.w_width > 960 || nav.w_height > 960)) {
-                $('body').append('<script id="facts_script" type="text/javascript" src="'+siteUrl+'/wp-content/themes/fora_curiouser_theme/js/svg/facts_left.js"></script>');
-                $('body').append('<script type="text/javascript" src="'+siteUrl+'/wp-content/themes/fora_curiouser_theme/js/svg/facts_right.js"></script>');
-            }
-            
-        // move social media buttons to the bottom of about
-            if (nav.w_width < 961) {
-                $('#sm').insertBefore('#page_about .page_bottom');
-            }
-            else $('#sm').appendTo('#header');
             
         // resize active pages
             if (nav.active_pages && nav.active_pages.length > 0) {
@@ -497,7 +521,7 @@ winston@curiousercreative.com
             }
             
         // Scroll to the right place
-            //if (nav.active_pages[0]) $('#page_container').scrollTo('#'+nav.active_pages[0].id, {axis: 'x'});
+            if (nav.active_pages[0]) $('#page_container').scrollTo('#page_'+nav.active_pages[0].id, {axis: 'x'});
         }
         
         nav.getActivePage = function () {

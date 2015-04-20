@@ -135,11 +135,6 @@ h6 {
 
 }
 
-a {
-	font-size: 1.1428rem;
-	font-family: 'latolight', sans-serif;
-}
-
 p:first-child {
 	margin-top: 0 !important;
 }
@@ -152,54 +147,18 @@ p + p {
 	margin-top: 1em;
 }
 
-b, strong {
-	font-family: 'latobold';
-	font-weight: normal;
-}
-
-i, em {
-	font-family: 'latoitalic';
-	font-style: normal;
-}
-
-i b, i strong,
-em b, em strong,
-b i, b em,
-strong i, strong em {
-	font-family: 'latobold_italic';
-	font-weight: normal;
-	font-style: normal;
-}
-
-input {
-	background: none;
-	border: white 1px solid;
-	padding: 0.15em 0.5em;
-	color: #fff;
-}
-
-::-webkit-input-placeholder {
-	color: #031548;
-	opacity: 1.0;
-}
-
-:-moz-placeholder { /* Firefox 18- */
-	color: #031548;
-	opacity: 1.0;
-}
-
-::-moz-placeholder {  /* Firefox 19+ */
-	color: #031548;
-	opacity: 1.0;
-}
-
-:-ms-input-placeholder {
-	color: #031548;
-	opacity: 1.0;
-}
-
+a,
 button {
 	cursor: pointer;
+	color: #FFF;
+	background: none repeat scroll 0% 0% #44A4F5;
+	margin-left: 0.5em;
+	padding: 0px 0.5em;
+	height: 1.62em;
+	font: 1.41em "latolight",sans-serif;
+	letter-spacing: 0.05em;
+	display: inline-block;
+	vertical-align: middle;
 }
 
 .wrap {
@@ -347,6 +306,15 @@ button {
 
 .meta_block + .meta_block {
     margin-top: 2em;
+}
+
+#preload {
+	position: fixed;
+	top: -1000%;
+	left: -1000%;
+	width: 0;
+	height: 0;
+	visibility: hidden;
 }
 
 /* -------------
