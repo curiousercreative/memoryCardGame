@@ -156,6 +156,44 @@ winston@curiousercreative.com
             }
         }
         
+        nav.pages.play.score = {
+            currentPenalty: 0,
+            currentParTime: 0,
+            penalty: {
+                easy: 5,
+                medium: 3,
+                hard: 1
+            },
+            parTime: {
+                easy: 30,
+                medium: 210,
+                hard: 450
+            },
+            matchMade: function () {
+                var score = this.getScore();
+                
+            // Calculate the factor by which this match was made before the par time
+                var bonus = this.currentParTime / nav.pages.play.timer.getTime();
+                
+            // Award a bonus for making matches under par time in the form of a multiplier
+                var bonus = bonus > 1 ? bonus : 1;
+                
+                score += 20*bonus;
+                this.setScore(score);
+            },
+            matchMiss: function () {
+                var score = this.getScore();
+                score -= this.currentPenalty;
+                this.setScore(score);
+            },
+            setScore: function (score) {
+                $('#scoreCurrent').html(Math.round(score));
+            },
+            getScore: function () {
+                return parseInt($('#scoreCurrent').html(), 10);
+            }
+        }
+        
         nav.pages.play.generateGame = function (difficulty = "easy") {
             // copy our colors array
             var cardsPossible = [];
@@ -215,6 +253,10 @@ winston@curiousercreative.com
         // start timer
             this.timer.reset();
             this.timer.start();
+            
+        // score init
+            this.score.currentPenalty = this.score.penalty[difficulty];
+            this.score.currentParTime = this.score.parTime[difficulty];
         }
         
         nav.pages.play.stopGame = function (difficulty, gameWon) {
@@ -230,7 +272,7 @@ winston@curiousercreative.com
         
         nav.pages.play.checkMatch = function () {
             // match
-            if ($('#page_'+nav.active_page+' .card.flipped:not(.matched)').first().attr('data-id') == $(nav.active_page+' .card.flipped:not(.matched)').last().attr('data-id')) {
+            if ($('#page_'+nav.active_page+' .card.flipped:not(.matched)').first().attr('data-id') == $('#page_'+nav.active_page+' .card.flipped:not(.matched)').last().attr('data-id')) {
                 this.matchMade();
             }
             // not match
@@ -246,13 +288,16 @@ winston@curiousercreative.com
         }
         
         nav.pages.play.matchMiss = function () {
-        // remove flipped class
+        // set a flag in case user is trigger happy
             this.matchMissActive = true;
+        
+        // remove flipped class in time
             this.matchMissTimeout = setTimeout(function () {
                 nav.pages.play.matchMissReset();
             }, 1000);
             
         // deduct points
+            this.score.matchMiss();
         }
         
         nav.pages.play.matchMade = function () {
@@ -260,7 +305,7 @@ winston@curiousercreative.com
             $('#page_'+nav.active_page+' .card.flipped:not(.matched)').addClass('matched').off('click');
             
         // add points
-        
+            this.score.matchMade();
         }
         
         nav.pages.play.matchMissReset = function () {
@@ -288,6 +333,10 @@ winston@curiousercreative.com
             });
         }
         
+        nav.pages.play.gameWon = function () {
+            
+        }
+        
         // Subpages
             //Easy
             nav.pages.play.pages.easy = new nav.Page('easy', {title: 'Easy', defaultTransition: 'slide'});
@@ -300,7 +349,7 @@ winston@curiousercreative.com
                 if (debug) console.log('pre_entering page with id:'+this.id);
                 nav.pages.play.stopGame(this.id);
             }
-            
+        
             nav.pages.play.pages.easy.colors = [
                 "red",
                 "green",
@@ -323,7 +372,6 @@ winston@curiousercreative.com
                 if (debug) console.log('pre_entering page with id:'+this.id);
                 nav.pages.play.stopGame(this.id);
             }
-            
             nav.pages.play.pages.medium.colors = [
                 "red",
                 "green",

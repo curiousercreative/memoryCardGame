@@ -372,6 +372,8 @@ button {
     border-radius: 20px;
     background: black;
 	cursor: pointer;
+	background-repeat: repeat;
+	background-position: center;
 }
 
 #page_easy .card {
@@ -383,13 +385,13 @@ button {
 #page_medium .card {
 	width: 15%;
 	height: 15%;
-	margin: 0.8%;
+	margin: 0.75%;
 }
 
 #page_hard .card {
-	width: 12%;
-	height: 12%;
-	margin: 0.5%;
+	width: 11%;
+	height: 11%;
+	margin: 0.67%;
 }
 
 .card.flipped.red {
@@ -426,6 +428,18 @@ button {
 
 .card.flipped.cyan {
 	background-color: cyan;
+}
+
+.card.flipped.checkered {
+	background-image: url('graphics/checkered.png');
+}
+
+.card.flipped.striped {
+	background-image: url('graphics/striped.png');
+}
+
+.card.flipped.diagonal {
+	background-image: url('graphics/diagonal.png');
 }
 /* -------------
   Browser specific style overrides
